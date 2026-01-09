@@ -11,10 +11,7 @@ const multiply = function (a, b){
 }
 
 const divide = function(a, b){
-    if(b!=0){
-         return parseFloat(a)/parseFloat(b);
-    }
-    return "BRUH"
+    return parseFloat(a)/parseFloat(b);
 }
 
 const operate = function(operator, a, b){
@@ -93,9 +90,16 @@ operatorButtons.forEach((operatorButton)=>{
             //number1 and display already filled, then do the evaluation, put it into number1 and add new operator
             if(number1!=undefined && display.textContent!=''){
                 number2 = display.textContent;
-                const ans = operate(operator, number1, number2);
-                number1 = ans;
-                operator = operatorButton.textContent;
+                const ans = operate(operator, number1, number2)
+                if(Number.isFinite(ans)){
+                    number1 = ans; //assign ans to number 1
+                    display.textContent = number1;
+                    operator = operatorButton.textContent;
+                }else{
+                    number1 = undefined;
+                    display.textContent = 'BRUH...';
+                    operator = undefined;
+                }
                 number2 = undefined
             }else{ //display is empty
                 //change to new operator
@@ -121,10 +125,15 @@ operatorEqual.addEventListener('click', function(){
             //calculate
             const ans = operate(operator, number1, number2)
             // console.log(ans);
-            number1 = ans; //assign ans to number 1
+            if(Number.isFinite(ans)){
+                number1 = ans; //assign ans to number 1
+                display.textContent = number1;
+            }else{
+                number1 = undefined;
+                display.textContent = 'BRUH...';
+            }
             number2 = undefined; //clear number2
             operator = undefined;
-            display.textContent = number1;
         }else{// but number2 is undefined
             //do nothing
         }
