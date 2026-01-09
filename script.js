@@ -67,7 +67,11 @@ clearButton.addEventListener('click', function(){
 //Event Listerner for inputing number (operand) to display
 operandButtons.forEach((operandButton)=>{
     operandButton.addEventListener('click', function(){
-        //if 
+        if(parseFloat(display.textContent)===number1 && number1!=undefined){
+            console.log("test");
+            number1=undefined;
+            display.textContent=undefined;
+        }
 
         clearButton.textContent = "CE";
         console.log(operandButton.textContent);
