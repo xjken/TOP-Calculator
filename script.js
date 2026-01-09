@@ -32,8 +32,9 @@ const operate = function(operator, a, b){
 //button input to display
 const display =document.querySelector('.display');
 const operandButtons = document.querySelectorAll('.operand')
+const decimalButton = document.querySelector('.decimal')
 const operatorButtons = document.querySelectorAll('.operator')
-const operatorEqual = document.querySelector('.operatorEqual')
+const operatorEqual = document.querySelector('.equal')
 const clearButton = document.querySelector('.clear')
 let number1;
 let number2;
@@ -46,6 +47,13 @@ const debugChecker = function(){
     console.log("Operator : "+ operator);
     console.log("Number 2 : "+ number2 );
     console.log("Display : "+ display.textContent)
+}
+const clearAll = function(){
+    number1 = undefined;
+    number2 = undefined;
+    operator = undefined;
+    display.textContent = undefined;
+    enableDecimalButton;
 }
 
 //Event Listener for AC CE button
@@ -61,59 +69,121 @@ clearButton.addEventListener('click', function(){
         display.textContent = undefined;
         clearButton.textContent = 'AC'
     }
+    checkIfDisplayContainDecimal();
     debugChecker();
 })
 
+const isAnsAlreadyInDisplay = function(){
+    return parseFloat(display.textContent)===number1 && number1!=undefined;
+}
+const setClearToCE = function(){
+    clearButton.textContent = "CE";
+}
+const setClearToAC = function(){
+    clearButton.textContent = "AC"
+}
+const isOperatorEmpty = function(){
+    return operator===undefined;
+}
 //Event Listerner for inputing number (operand) to display
 operandButtons.forEach((operandButton)=>{
     operandButton.addEventListener('click', function(){
-        if(parseFloat(display.textContent)===number1 && number1!=undefined){
-            console.log("test");
-            number1=undefined;
-            display.textContent=undefined;
+        //if Answer already in display
+        if(isAnsAlreadyInDisplay()){
+            if(isOperatorEmpty()){// no operator yet, usually this triggered when evaluation was done and Answer(also number1) is on display and user want to input new number, so we clear previous number1 and display.
+                console.log("test");
+                clearAll();
+            }else{// alreay have operator, so we just clear display
+                clearDisplay()
+            }
         }
-
-        clearButton.textContent = "CE";
-        console.log(operandButton.textContent);
+        setClearToCE();
         display.textContent = display.textContent + operandButton.textContent;
         debugChecker();
+        checkIfDisplayContainDecimal();
     })
 })
+
+function disableDecimalButton(){
+    decimalButton.disabled = true;
+}
+function enableDecimalButton(){
+    decimalButton.disabled = false;
+}
+const checkIfDisplayContainDecimal = function(){
+    if(display.textContent.includes("."))
+        disableDecimalButton();
+    else
+        enableDecimalButton();
+}
+//Event listner for inputting decimal operand (.)
+decimalButton.addEventListener('click', function(){
+    //if display is empty
+    if(display.textContent===''){
+        display.textContent = 0+".";
+    }else if(isAnsAlreadyInDisplay()){ //is ans already there
+        clearAll(); //reset
+        display.textContent = 0+'.';
+    }else{
+        //display is not empty
+        display.textContent = display.textContent+'.';
+    }
+    checkIfDisplayContainDecimal();
+})
+
+const isDisplayEmpty = function(){
+    return display.textContent===''
+}
+const isNumber1Empty = function(){
+    return number1===undefined;
+}
+const isNumber2Empty = function(){
+    return number2===undefined;
+}
+const getDisplayAsNum = function(){
+    return parseFloat(display.textContent);
+}
+const setDisplay = function(number){
+    display.textContent = number
+}
+const clearDisplay = function(){
+    display.textContent = undefined;
+}
+const getOperator = function(operatorButton){
+    return operatorButton.textContent;
+}
 
 //Event Listener for handling operator button
 operatorButtons.forEach((operatorButton)=>{
     operatorButton.addEventListener('click', function(){
-        if(operator===undefined){ //if there is no operator yet
-            // display has numbers
-            if( display.textContent!=''){
-                number1 = display.textContent;
-                operator = operatorButton.textContent;
+        // an operator button is clicked
+        if(isNumber1Empty()){ // If number1 is empty
+            if(!isDisplayEmpty()){ //display has number
+                //assign display to number1 
+                number1 = getDisplayAsNum();
+                operator = getOperator(operatorButton);
+                clearDisplay();
+            }else{
+                //do nothing
             }
-            //if display empty, clicking operator buttons do nothing
-        }else{// already have operator
-            //number1 and display already filled, then do the evaluation, put it into number1 and add new operator
-            if(number1!=undefined && display.textContent!=''){
-                number2 = display.textContent;
-                const ans = operate(operator, number1, number2)
-                if(Number.isFinite(ans)){
-                    number1 = ans; //assign ans to number 1
-                    display.textContent = number1;
-                    operator = operatorButton.textContent;
-                }else{
-                    number1 = undefined;
-                    display.textContent = 'BRUH...';
-                    operator = undefined;
-                }
-                number2 = undefined
-            }else{ //display is empty
-                //change to new operator
-                operator = operatorButton.textContent;
+        }else if(isOperatorEmpty()){ //operator is emtpy
+            operator = getOperator(operatorButton);
+            clearDisplay();
+        }else if( !isOperatorEmpty() ){ //number1 is not empty, operator is not empty
+            if(!isDisplayEmpty()){
+                //assign display to number2
+                number2 = getDisplayAsNum();
+                //calculate result
+                const ans = operate(operator, number1, number2)//operator before current input
+                setDisplay(ans); // put into display
+                number1 = ans; // assign ans to number 1
+                number2 = undefined;
+                operator = getOperator(operatorButton); //assign new operator
             }
         }
-        //clear display
-        display.textContent=undefined;
-        clearButton.textContent='AC';
         debugChecker();
+        //after every operator, user can use decimal button again
+        enableDecimalButton();
     })
 })
 
@@ -143,6 +213,7 @@ operatorEqual.addEventListener('click', function(){
         }
     }
     debugChecker();
+    checkIfDisplayContainDecimal();
     
 })
 
