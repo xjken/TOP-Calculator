@@ -11,10 +11,14 @@ const multiply = function (a, b){
 }
 
 const divide = function(a, b){
-    return parseFloat(a)/parseFloat(b);
+    if(b!=0){
+         return parseFloat(a)/parseFloat(b);
+    }
+    return "BRUH"
 }
 
 const operate = function(operator, a, b){
+    console.log(operator + "__" + a +"__" +b)
     switch(operator){
         case "+":
             return add(a, b);
@@ -26,6 +30,7 @@ const operate = function(operator, a, b){
             return divide(a,b)
     }
 }
+
 
 //button input to display
 const display =document.querySelector('.display');
