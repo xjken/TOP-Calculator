@@ -65,6 +65,8 @@ clearButton.addEventListener('click', function(){
 //Event Listerner for inputing number (operand) to display
 operandButtons.forEach((operandButton)=>{
     operandButton.addEventListener('click', function(){
+        //if 
+
         clearButton.textContent = "CE";
         console.log(operandButton.textContent);
         display.textContent = display.textContent + operandButton.textContent;
@@ -75,23 +77,21 @@ operandButtons.forEach((operandButton)=>{
 //Event Listener for handling operator button
 operatorButtons.forEach((operatorButton)=>{
     operatorButton.addEventListener('click', function(){
-
         if(operator===undefined){ //if there is no operator yet
-            //number 1 is empty and display has numbers
-            if(number1 === undefined && display.textContent!=''){
+            // display has numbers
+            if( display.textContent!=''){
                 number1 = display.textContent;
                 operator = operatorButton.textContent;
             }
-
-            //if all empty clicking operator buttons do nothing
+            //if display empty, clicking operator buttons do nothing
         }else{// already have operator
             //number1 and display already filled, then do the evaluation, put it into number1 and add new operator
             if(number1!=undefined && display.textContent!=''){
                 number2 = display.textContent;
                 const ans = operate(operator, number1, number2);
                 number1 = ans;
-                operator = operandButtons.textContent;
-                number2 =undefined
+                operator = operatorButton.textContent;
+                number2 = undefined
             }else{ //display is empty
                 //change to new operator
                 operator = operatorButton.textContent;
@@ -114,7 +114,7 @@ operatorEqual.addEventListener('click', function(){
         }
         if(number2!=undefined){ //and number 2 is also filled
             //calculate
-            const ans = operate(operator, parseFloat(number1), parseFloat(number2))
+            const ans = operate(operator, number1, number2)
             // console.log(ans);
             number1 = ans; //assign ans to number 1
             number2 = undefined; //clear number2
