@@ -36,6 +36,7 @@ const decimalButton = document.querySelector('.decimal')
 const operatorButtons = document.querySelectorAll('.operator')
 const operatorEqual = document.querySelector('.equal')
 const clearButton = document.querySelector('.clear')
+const backspaceButton = document.querySelector('.backspace')
 let number1;
 let number2;
 let operator;
@@ -132,7 +133,7 @@ decimalButton.addEventListener('click', function(){
 })
 
 const isDisplayEmpty = function(){
-    return display.textContent===''
+    return display.textContent==='';
 }
 const isNumber1Empty = function(){
     return number1===undefined;
@@ -143,8 +144,11 @@ const isNumber2Empty = function(){
 const getDisplayAsNum = function(){
     return parseFloat(display.textContent);
 }
+const getDisplayAsString = function(){
+    return display.textContent;
+}
 const setDisplay = function(number){
-    display.textContent = number
+    display.textContent = number;
 }
 const clearDisplay = function(){
     display.textContent = undefined;
@@ -180,6 +184,8 @@ operatorButtons.forEach((operatorButton)=>{
                 number2 = undefined;
                 operator = getOperator(operatorButton); //assign new operator
             }
+        }else{
+            //do nothing
         }
         debugChecker();
         //after every operator, user can use decimal button again
@@ -217,5 +223,11 @@ operatorEqual.addEventListener('click', function(){
     
 })
 
+backspaceButton.addEventListener('click', function(){
+    if(!isDisplayEmpty()){
+        setDisplay(getDisplayAsString().slice(0, -1))
+        console.log('test')
+    }
+})
 
 
