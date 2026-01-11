@@ -8,32 +8,41 @@
 </head>
 <body>
     <script src="script.js" defer></script>
-    <div class="display"></div>
-    <div>
-        <button class="operand">7</button>
-        <button class="operand">8</button>
-        <button class="operand">9</button>
-        <button class="operator">x</button>
+    <div class="calculatorBody">
+        <div class="display">
+            <div class="lastDisplay" id="lastDisplay">test</div>
+            <div class="newDisplay" id="lastDisplay">asd</div>  
+        </div>
+        <div class="clearRow">
+            <button class="clear" id="clearButton">AC</button>
+            <button class="backspace" id="backspaceButton">&lt;-</button>
+        </div>
+        <div class="bodyRow">
+            <button class="operand">7</button>
+            <button class="operand">8</button>
+            <button class="operand">9</button>
+            <button class="operator">x</button>
+        </div>
+        <div class="bodyRow">
+            <button class="operand">4</button>
+            <button class="operand">5</button>
+            <button class="operand">6</button>
+            <button class="operator">/</button>
+        </div>
+        <div class="bodyRow"> 
+            <button class="operand">1</button>
+            <button class="operand">2</button>
+            <button class="operand">3</button>
+            <button class="operator">+</button>
+        </div>
+        <div class="bodyRow">
+            <button class="operand">0</button>
+            <button class="decimal">.</button>
+            <button class="operator">-</button>
+            <button class="equal" id="equalButton">=</button>
+        </div>
     </div>
-    <div>
-        <button class="operand">4</button>
-        <button class="operand">5</button>
-        <button class="operand">6</button>
-        <button class="operator">/</button>
-    </div>
-    <div>
-        <button class="operand">1</button>
-        <button class="operand">2</button>
-        <button class="operand">3</button>
-        <button class="operator">+</button>
-        <button class="backspace">&lt;-</button>
-    </div>
-    <div>
-        <button class="operand">0</button>
-        <button class="decimal">.</button>
-        <button class="operator">-</button>
-        <button class="equal">=</button>
-        <button class="clear">AC</button>
-    </div>
+
+    
 </body>
 </html>
