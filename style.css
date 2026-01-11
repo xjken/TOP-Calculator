@@ -35,8 +35,7 @@ button{
 }
 
 .display{
- 
-    font-size: 26px;
+    padding: 5px;
     align-items: center;
     border-style: dashed;
     display: flex;
@@ -44,5 +43,10 @@ button{
     align-items: end;
 }
 .lastDisplay{
+    height: 21px;
     font-size: 20px;
+}
+.currentDisplay{
+    height: 27px;
+    font-size: 26px;
 }
