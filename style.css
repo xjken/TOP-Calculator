@@ -37,10 +37,11 @@ button{
 .display{
     padding: 5px;
     align-items: center;
-    border-style: dashed;
+    border-style: double;
     display: flex;
     flex-direction: column;
     align-items: end;
+    gap: 3px;
 }
 .lastDisplay{
     height: 21px;
