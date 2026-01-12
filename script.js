@@ -35,6 +35,7 @@ const appendNumber= function(number){
 decimalButton.addEventListener('click', () => appendDecimal());
 const appendDecimal = function(){
     clearScreenIfNeeded();
+    clearOperationIfNeeded();
     //if currentDisplay is empty add 0 first, 0.1 0.2 instead of .1.2
     if(currentDisplay.textContent==='')
         currentDisplay.textContent+=0;
