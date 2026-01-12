@@ -17,14 +17,15 @@ const decimalButton = document.getElementById('decimalButton');
 const lastDisplay = document.getElementById('lastDisplay');
 const currentDisplay = document.getElementById('currentDisplay');
 
+
 const isDisplayEmpty = function(display){
     return display.textContent==='';
 }
 
 allNumberButtons.forEach((button)=>{
-    button.addEventListener('click', () => appendNumberToDisplay(button.textContent))
+    button.addEventListener('click', () => appendNumber(button.textContent))
 });
-const appendNumberToDisplay= function(number){
+const appendNumber= function(number){
     clearOperationIfNeeded();
     clearScreenIfNeeded();
     console.log(number);
@@ -139,4 +140,30 @@ const operate = function(operator, a, b){
 
 const round = function(number){
     return Math.round(number * 10000) / 10000; 
+}
+
+//handle keyboard input
+window.addEventListener('keydown', handleKeyboardInput)
+function handleKeyboardInput(e){
+    if(e.key >=0 && e.key<=9)
+        appendNumber(e.key);
+    if(e.key === '.')
+        appendDecimal(e.key);
+    if(e.key === 'Backspace')
+        backspaceHandler();
+    if(e.key === 'Escape')
+        handleClear();
+    if(e.key === '=' || e.key === 'Enter')
+        evaluate();
+    if("+-*x/".includes(e.key))
+        handleOperator(convertOperator(e.key))
+}
+function convertOperator(keyboardInput){
+    switch(keyboardInput){
+        case '+': return '+'
+        case '-': return '-'
+        case '*': return 'x'
+        case 'x': return 'x'
+        case '/': return '÷'
+    }
 }
