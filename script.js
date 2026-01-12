@@ -3,6 +3,7 @@ let firstOperand = '';
 let secondOperand = '';
 let currentOperator = null;
 let needResetScreen = false;
+let needResetOperation = false;
 
 // button selector
 const allNumberButtons =  document.querySelectorAll('.operand');
@@ -24,6 +25,7 @@ allNumberButtons.forEach((button)=>{
     button.addEventListener('click', () => appendNumberToDisplay(button.textContent))
 });
 const appendNumberToDisplay= function(number){
+    clearOperationIfNeeded();
     clearScreenIfNeeded();
     console.log(number);
     currentDisplay.textContent += number;
@@ -61,6 +63,12 @@ const clearScreenIfNeeded = function(){
     needResetScreen = false;
 }
 
+const clearOperationIfNeeded = function(){
+    if(needResetOperation)
+        handleClear();
+    needResetOperation = false;
+}
+
 equalButton.addEventListener('click', ()=>evaluate())
 allOperatorButtons.forEach((button)=>{
     button.addEventListener('click', ()=>handleOperator(button.textContent))
@@ -68,13 +76,18 @@ allOperatorButtons.forEach((button)=>{
 const handleOperator = function(operator){
     if(currentOperator !== null)
         evaluate() 
+
     firstOperand = currentDisplay.textContent;
     currentOperator = operator;
+
     //move firstOperand(currently at currentDisplay) & operator to lastDisplay
     lastDisplay.textContent = `${firstOperand} ${currentOperator}`
 
     //toggle screen reset
     needResetScreen = true;
+
+    //toggle reset operation
+    needResetOperation = false;
 }
 const evaluate = function(){
     //skip evaluate if = pressed before secondOperand assigned example: 1 -> + -> = 
@@ -100,6 +113,9 @@ const evaluate = function(){
 
     //clear operator
     currentOperator = null;
+
+    //flag clear operation
+    needResetOperation = true;
 }
 const add = function(a,b) {return a+b;}
 const subtract = function(a,b) {return a-b;}
